@@ -6,7 +6,13 @@ parameters:
         max: 80699
     paths:
         - ../../src
+        - src
     ignoreErrors:
+        # The purity rules are for the library's API, not for these rules
+        -
+            identifier: brick.methodPurity
+            path: src/*
+
         # The methods below are pure as far as their callers can tell, which PHPStan cannot see.
 
         # A static variable memoizes a value that never changes
@@ -40,3 +46,7 @@ parameters:
         -
             message: '#^Possibly impure (call to function (assert|preg_match)\(\)|instantiation of class Date\w+|call to method Date\w+::\w+\(\)) in pure method #'
             path: ../../src/*
+
+rules:
+    - Brick\DateTime\PHPStan\AbstractMethodPurityRule
+    - Brick\DateTime\PHPStan\MethodPurityRule
